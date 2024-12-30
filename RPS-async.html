@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rps-async</title>
+</head>
+<body style="background-color: black; color: white">
+    <h1>Rock Paper Scissor(async)</h1>
+    <!--rockbutton-->
+    <img src="images/rock_img.jpeg"
+    style="width: 150px;"
+    onclick="
+    let computerPick = computerChoice();
+    const userPick = 'rock';
+    processResult(userPick, computerPick);
+    saveScore();
+    document.querySelector('.js-result').innerHTML=
+    `(YOU)${userPick} VS ${computerPick}(COMPUTER)<br>
+     You ${result}`;
+     document.querySelector('.js-score-display').innerHTML=
+    `wins : ${score.wins} loses : ${score.loses} draws : ${score.draws}`;
+        
+    
+    "></img>
+
+    <!--paperbutton-->
+    <img src="images/paper_img.jpeg"
+    style="width: 152px;"
+    onclick=
+    "let computerPick = computerChoice();
+    const userPick = 'paper';
+    processResult(userPick, computerPick);
+    saveScore();
+    document.querySelector('.js-result').innerHTML=
+    `(YOU)${userPick} VS ${computerPick}(COMPUTER)<br>
+     You ${result}`;
+     document.querySelector('.js-score-display').innerHTML=
+    `wins : ${score.wins} loses : ${score.loses} draws : ${score.draws}`;
+        
+
+    "></img>
+
+    <!--scissorbutton-->
+    <img src="images/scissor_img.jpeg" 
+    style="height: 151px;"
+    onclick=
+    "let computerPick = computerChoice();
+    const userPick = 'scissor';
+    processResult(userPick, computerPick);
+    saveScore();
+    document.querySelector('.js-result').innerHTML=
+    `(YOU)${userPick} VS ${computerPick}(COMPUTER)<br>
+     You ${result}`;
+     document.querySelector('.js-score-display').innerHTML=
+     `wins : ${score.wins} loses : ${score.loses} draws : ${score.draws}`;
+   
+    "></img>
+
+    <p class="js-result"></p>
+    <p class="js-score-display" ></p>
+
+
+    <!-- reset button -->
+     <button onclick = "
+     score.wins=0;
+     score.loses=0;
+     score.draws=0;
+     document.querySelector('.js-result').innerHTML ='';
+    document.querySelector('.js-score-display').innerHTML=
+    `wins : ${score.wins} loses : ${score.loses} draws : ${score.draws}`;
+
+     ">Reset score</button>
+
+     <!-- auto play button -->
+      <button onclick="
+      autoPlay();
+      ">Auto Play</button>
+    <script>
+        let result = '';
+        let score = { 
+            wins : 0, loses : 0, draws : 0
+        }
+       function computerChoice(){
+        const randomNumber = Math.random();
+        let computerPick = '';
+        if (randomNumber >=0 && randomNumber <1/3) {
+            computerPick = 'rock';
+        }
+        else if (randomNumber >=1/3 && randomNumber < 2/3){
+            computerPick = 'paper';
+        }
+        else if (randomNumber >= 2/3 && randomNumber <1){
+            computerPick = 'scissor';
+        }
+        return computerPick;
+       }
+       function processResult(userPick, computerPick){
+        if( userPick === 'rock'){
+            if (computerPick === 'rock')result = 'tied';
+            if (computerPick === 'paper')result = 'lose';
+            if (computerPick === 'scissor')result = 'win';
+        }
+        else if( userPick === 'paper'){
+            if (computerPick === 'rock')result = 'win';
+            else if (computerPick === 'paper')result = 'tied';
+            else if (computerPick === 'scissor')result = 'lose';
+       }
+       else if( userPick === 'scissor'){
+            if (computerPick === 'rock')result = 'lose';
+            else if (computerPick === 'paper')result = 'win';
+            else if (computerPick === 'scissor')result = 'tied';
+       }
+    }
+    function saveScore(){
+        if (result === 'win')score.wins++;
+        else if (result === 'lose')score.loses++;
+        else if (result === 'tied')score.draws++;
+    }
+    
+    let isAutoPlaying = false
+    let intervalId ;
+    function autoPlay(){
+    if( !isAutoPlaying )
+    {intervalId = setInterval(function(){
+        const computerPick = computerChoice();
+        const userPick = computerChoice();
+        processResult(userPick, computerPick);
+        saveScore();
+        document.querySelector('.js-result').innerHTML=
+        `(YOU)${userPick} VS ${computerPick}(COMPUTER)<br>
+         You ${result}`;
+        document.querySelector('.js-score-display').innerHTML=
+        `wins : ${score.wins} loses : ${score.loses} 
+        draws : ${score.draws}`;
+    } , 1000 );
+    isAutoPlaying = true;
+
+    }
+    else {
+        clearInterval(intervalId);
+        isAutoPlaying = false;
+    }
+    }
+    
+   
+        
+    </script>
+</body>
+</html>
